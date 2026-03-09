@@ -1,4 +1,4 @@
-# Production-Ready Retrieval Augmented Generation (RAG) System
+# Multi-Document AI Policy Intelligence System
 
 A production-oriented **Retrieval Augmented Generation (RAG)** system designed to answer questions from large policy documents such as Digital India policies, NITI Aayog reports, MSME policies and startup policy frameworks.
 
@@ -257,6 +257,7 @@ Possible extensions for this project include :
 This project demonstrates how to build a **structured, modular and reliable Retrieval Augmented Generation system.**
 
 The focus is not only on making RAG work, but on designing it in a way that reflects production-ready AI engineering practices, including modular architecture, persistent storage and safeguards against hallucinations.
+
 
 
 
