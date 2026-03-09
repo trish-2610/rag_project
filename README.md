@@ -133,6 +133,7 @@ This demonstrates the engineering process used to design the final pipeline.
 ## Project Structure
 The system follows an industry-style modular structure.
 
+'''
 rag_project
 │
 ├── dataset
@@ -158,6 +159,7 @@ rag_project
 ├── requirements.txt
 ├── .env.example
 └── README.md
+'''
 
 The src directory contains all core logic of the RAG system.
 
@@ -259,6 +261,7 @@ Possible extensions for this project include :
 This project demonstrates how to build a **structured, modular and reliable Retrieval Augmented Generation system.**
 
 The focus is not only on making RAG work, but on designing it in a way that reflects production-ready AI engineering practices, including modular architecture, persistent storage and safeguards against hallucinations.
+
 
 
 
