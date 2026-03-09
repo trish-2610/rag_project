@@ -36,7 +36,7 @@ Features include:
 
 ---
 
-### Evidence Based Retrieval
+### Evidence Based Retrieval **(reduces LLM Hallucination)
 
 Each answer produced by the system includes references to the original source documents.
 
@@ -256,6 +256,7 @@ Possible extensions for this project include :
 This project demonstrates how to build a **structured, modular and reliable Retrieval Augmented Generation system.**
 
 The focus is not only on making RAG work, but on designing it in a way that reflects production-ready AI engineering practices, including modular architecture, persistent storage and safeguards against hallucinations.
+
 
 
 
