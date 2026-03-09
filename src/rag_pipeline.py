@@ -104,8 +104,12 @@ def answer_query(query):
 ## main function
 def main():
     ingest_documents()
-    query = input("Enter your query :")
-    answer_query(query)
+    while True:
+        query = input("\nEnter your query : ")
+        if query.lower() == "exit":
+            break
+        else:
+            answer_query(query)
 
 if __name__ == "__main__":
     main()
