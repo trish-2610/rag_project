@@ -28,7 +28,8 @@ def generate_response(query,context):
     "The answer is not available in the provided documents."
     4. Provide clear and factual responses.
     5. When possible, mention the policy name, scheme name or organization referenced in the context.
-
+    6. Provide a clear and concise answer.
+    
     Context : {context}
 
     User Question : {query}
