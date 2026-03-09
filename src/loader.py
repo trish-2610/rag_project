@@ -15,10 +15,17 @@ def load_files(dataset_path):
 
         ## category from folder name
         category = pdf.parent.name
+        file_name = pdf.name
 
-        for d in docs:
-            d.metadata["source"] = pdf.name
-            d.metadata["category"] = category ## pdf.parent.name
+        for page_id, d in enumerate(docs):
+
+            ## Normalized metadata
+            d.metadata = {
+                "source": file_name,         ## file name
+                "category": category,        ## folder name
+                "page": d.metadata.get("page" , page_id + 1),  ## page number
+                "file_path": str(pdf)        ## full path 
+            }  
              
         documents.extend(docs)
         print(f"Loaded {len(docs)} pages from {pdf.name}")
