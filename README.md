@@ -13,13 +13,10 @@ The system is built to simulate how industry-grade AI assistants retrieve knowle
 The goal of this project is to build a reliable document intelligence system capable of answering complex questions from large policy reports.
 
 The system focuses on :
-
-
-
-• semantic understanding of policy documents
-• evidence based responses grounded in source material
-• retrieval optimization to reduce hallucination
-• modular architecture for scalable AI systems
+- semantic understanding of policy documents
+- evidence based responses grounded in source material
+- retrieval optimization to reduce hallucination
+- modular architecture for scalable AI systems
 
 Instead of acting as a simple chatbot, the system behaves as a document intelligence engine capable of retrieving and reasoning over large structured knowledge bases.
 
@@ -272,3 +269,4 @@ Possible extensions for this project include :
 This project demonstrates how to build a **structured, modular and reliable Retrieval Augmented Generation system.**
 
 The focus is not only on making RAG work, but on designing it in a way that reflects production-ready AI engineering practices, including modular architecture, persistent storage and safeguards against hallucinations.
+
