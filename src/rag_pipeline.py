@@ -4,81 +4,108 @@ from splitter import split_documents
 from embeddings import EmbeddingModel
 from vectorstore import VectorStore
 from llm_service import generate_response
-import os 
+import os
 
+
+## set vectorDB path 
 VECTOR_DB_PATH = "vectorDB"
 
-## Initialize embedder 
+## initialization 
 embedder = EmbeddingModel()
-
-## Initialize vectorstore
 vectorstore = VectorStore()
 
-## Data Ingestion pipeline - only works if vectorDB doesn't exist already
-if not os.path.exists(VECTOR_DB_PATH) or len(os.listdir(VECTOR_DB_PATH)) == 0:
-    print("Creating vectorDB")
 
-    ## Loading all the pdf files from the directory
-    docs = load_files("../dataset")
+def ingest_documents():
+    """Create vector database if it does not exist"""
 
-    ## Splitting the data into chunks
-    chunks = split_documents(docs)
+    if not os.path.exists(VECTOR_DB_PATH) or len(os.listdir(VECTOR_DB_PATH)) == 0:
 
-    ## Create embeddings using chunks
-    texts = [c.page_content for c in chunks] ## fetching page content from chunks
-    embeddings = embedder.embed(texts)
+        print("Creating vectorDB")
 
-    ## adding chunks to vector-store 
-    vectorstore.add_documents(chunks,embeddings)
-else:
-    print("vectorDB already exits so skipping Ingestion")
+        ## load all the files 
+        docs = load_files("../dataset")
+        
+        ## Split document into chunks 
+        chunks = split_documents(docs)
+        
+        ## fetch page content from chunks
+        texts = [c.page_content for c in chunks]
 
-## user query 
-query = "Tell me about 'Project Vaani'."
+        ## create embeddings 
+        embeddings = embedder.embed(texts)
+        
+        ## adds chunks to vectorDB
+        vectorstore.add_documents(chunks, embeddings)
 
-## Creating query embeddings 
-query_embeddings = embedder.embed([query])
+    else:
+        print("vectorDB already exists so skipping ingestion")
 
-## Retrieve documents from vectorDB
-retrieved_docs = vectorstore.collection.query(
-    query_embeddings = query_embeddings.tolist(),
-    n_results = 5 ## top-5 results only
-)
 
-docs = retrieved_docs["documents"][0]
-metadatas = retrieved_docs["metadatas"][0]
-distances = retrieved_docs["distances"][0]
+def retrieve_documents(query):
+    """Retrieve relevant documents from vectorDB"""
 
-## Similarity filtering
-filtered_docs = []
-sources = []
+    query_embedding = embedder.embed([query])
 
-similarity_threshold = 1.2
+    results = vectorstore.collection.query(
+        query_embeddings=query_embedding.tolist(),
+        n_results=5
+    )
 
-for doc, meta, dist in zip(docs , metadatas , distances):
+    docs = results["documents"][0]
+    metadatas = results["metadatas"][0]
+    distances = results["distances"][0]
 
-    if dist < similarity_threshold:
+    filtered_docs = []
+    sources = []
 
-        filtered_docs.append(doc)
-        source = f"{meta['source']} (page {meta['page']})"
-        sources.append(source)
+    similarity_threshold = 1.2
 
-if len(filtered_docs) == 0:
-    print("No relevant documents found.")
-    exit()
+    for doc, meta, dist in zip(docs , metadatas , distances):
 
-## creating context from retrieved docs 
-context = "\n\n---\n\n".join(retrieved_docs["documents"][0])
+        if dist < similarity_threshold:
+            filtered_docs.append(doc)
+            source = f"{meta['source']} (page {meta['page']})"
+            sources.append(source)
 
-## Calling LLm to answer user query 
-answer = generate_response(query,context)
+    return filtered_docs, sources
 
-## print final answer
-print("\nAnswer :\n")
-print(answer)
 
-## print sources 
-print("\nSources :\n")
-for s in set(sources):
-    print("-", s)
+def build_context(filtered_docs):
+    """Create context for the LLM"""
 
+    if len(filtered_docs) == 0:
+        return None
+
+    return "\n\n---\n\n".join(filtered_docs)
+
+
+def answer_query(query):
+    """Full RAG pipeline for answering a question"""
+
+    filtered_docs, sources = retrieve_documents(query)
+
+    context = build_context(filtered_docs)
+
+    if context is None:
+        print("No relevant documents found.")
+        return
+
+    answer = generate_response(query, context)
+    
+    ## prints answer
+    print("\nAnswer:\n")
+    print(answer)
+
+    ## prints response
+    print("\nSources:\n")
+    for s in set(sources):
+        print("-", s)
+
+
+def main():
+    ingest_documents()
+    query = input("Enter your query :")
+    answer_query(query)
+
+if __name__ == "__main__":
+    main()
