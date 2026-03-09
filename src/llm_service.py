@@ -13,6 +13,21 @@ try :
 except Exception as e:
     print(f"Error in loading model : {str(e)} ")
 
+def rewrite_query(query):
+    """This function improves retrieval quality when user asks vague questions."""
+
+    prompt = f"""
+    Rewrite the user question so it becomes clearer and better for document retrieval.
+
+    User Question:
+    {query}
+
+    Improved Question:
+    """
+    response = llm.invoke(prompt)
+    return response.content.strip()
+
+
 def generate_response(query,context):
     """This function calls the LLM and answers the user query"""
 

@@ -3,7 +3,7 @@ from loader import load_files
 from splitter import split_documents
 from embeddings import EmbeddingModel
 from vectorstore import VectorStore
-from llm_service import generate_response
+from llm_service import generate_response , rewrite_query
 import os
 
 
@@ -44,7 +44,8 @@ def ingest_documents():
 def retrieve_documents(query):
     """Retrieve relevant documents from vectorDB"""
 
-    query_embedding = embedder.embed([query])
+    improved_query = rewrite_query(query)
+    query_embedding = embedder.embed([improved_query])
 
     results = vectorstore.collection.query(
         query_embeddings=query_embedding.tolist(),
