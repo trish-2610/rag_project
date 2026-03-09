@@ -133,33 +133,33 @@ This demonstrates the engineering process used to design the final pipeline.
 ## Project Structure
 The system follows an industry-style modular structure.
 
-'''
+```
 rag_project
 │
-├── dataset
-│   ├── ai_policies
-│   ├── digital_india_policies
-│   ├── msme_policies
-│   ├── niti_ayog_policies
-│   └── startup_policies
+├── dataset/                        ## Policy documents used for knowledge retrieval
+│   ├── ai_policies/
+│   ├── digital_india_policies/
+│   ├── msme_policies/
+│   ├── niti_ayog_policies/
+│   └── startup_policies/
 │
-├── notebooks
-│   └── experimentation.ipynb
+├── notebooks/
+│   └── experimentation.ipynb       ## Experiments with chunking, embeddings and retrieval
 │
-├── src
-│   ├── embeddings.py
-│   ├── llm_service.py
-│   ├── loader.py
-│   ├── rag_pipeline.py
-│   ├── splitter.py
-│   ├── vectorstore.py
-│   └── vectorDB
+├── src/                            ## Core RAG pipeline modules
+│   ├── embeddings.py               ## Embedding generation logic
+│   ├── llm_service.py              ## LLM API interaction
+│   ├── loader.py                   ## Document loading pipeline
+│   ├── rag_pipeline.py             ## Main retrieval + generation pipeline
+│   ├── splitter.py                 ## Document chunking logic
+│   ├── vectorstore.py              ## Vector database management
+│   └── vectorDB/                   ## Persistent Chroma vector database
 │
-├── main.py
-├── requirements.txt
-├── .env.example
-└── README.md
-'''
+├── main.py                         
+├── requirements.txt                ## Project dependencies
+├── .env.example                    ## Environment variable template
+└── README.md                       ## Project documentation
+```
 
 The src directory contains all core logic of the RAG system.
 
@@ -261,6 +261,7 @@ Possible extensions for this project include :
 This project demonstrates how to build a **structured, modular and reliable Retrieval Augmented Generation system.**
 
 The focus is not only on making RAG work, but on designing it in a way that reflects production-ready AI engineering practices, including modular architecture, persistent storage and safeguards against hallucinations.
+
 
 
 
