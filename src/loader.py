@@ -18,8 +18,8 @@ def load_files(dataset_path):
 
         for d in docs:
             d.metadata["source"] = pdf.name
-            d.metadata["category"] = category
-            
+            d.metadata["category"] = category ## pdf.parent.name
+             
         documents.extend(docs)
         print(f"Loaded {len(docs)} pages from {pdf.name}")
         
