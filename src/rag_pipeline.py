@@ -101,7 +101,7 @@ def answer_query(query):
     for s in set(sources):
         print("-", s)
 
-
+## main function
 def main():
     ingest_documents()
     query = input("Enter your query :")
