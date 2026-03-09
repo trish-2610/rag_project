@@ -47,10 +47,13 @@ This ensures:
 - reduced hallucination risk  
 
 **Example output**
+
 Answer:
+
 Project Vaani focuses on building large-scale speech datasets for Indian languages.
 
 Sources:
+
 digital_india_policy.pdf (page 18)
 ai_strategy_report.pdf (page 12)
 
@@ -269,4 +272,5 @@ Possible extensions for this project include :
 This project demonstrates how to build a **structured, modular and reliable Retrieval Augmented Generation system.**
 
 The focus is not only on making RAG work, but on designing it in a way that reflects production-ready AI engineering practices, including modular architecture, persistent storage and safeguards against hallucinations.
+
 
