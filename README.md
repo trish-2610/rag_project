@@ -1,114 +1,274 @@
 # Production-Ready Retrieval Augmented Generation (RAG) System
 
-A modular and production-style **Retrieval Augmented Generation (RAG)** pipeline designed to answer questions using external documents while minimizing hallucinations and ensuring reliable responses.
+A production-oriented **Retrieval Augmented Generation (RAG)** system designed to answer questions from large policy documents such as Digital India policies, NITI Aayog reports, MSME policies and startup policy frameworks.
 
-This project focuses on **building a clean, scalable and industry-structured RAG system**, rather than just demonstrating the concept. It includes modular components, optimized chunking strategies, vector search, and prompt-controlled LLM responses.
+Unlike traditional RAG demos that simply embed documents and retrieve chunks, this system implements several improvements focused on **retrieval quality, traceability and reliability**.
+
+The system is built to simulate how industry-grade AI assistants retrieve knowledge from large document collections while **minimizing hallucinations and providing evidence-based answers**.
 
 ---
 
 ## Objective
 
-The main objective of this project is to build a **reliable and production-ready RAG pipeline** that:
+The goal of this project is to build a reliable document intelligence system capable of answering complex questions from large policy reports.
 
-- Retrieves relevant information from a document corpus
-- Grounds LLM responses strictly in retrieved context
-- Reduces hallucinations
-- Maintains a **clean, modular architecture used in real-world AI systems**
+The system focuses on :
 
-Instead of a simple notebook-based prototype, the focus is on **structured engineering practices used in production AI applications**.
+
+
+• semantic understanding of policy documents
+• evidence based responses grounded in source material
+• retrieval optimization to reduce hallucination
+• modular architecture for scalable AI systems
+
+Instead of acting as a simple chatbot, the system behaves as a document intelligence engine capable of retrieving and reasoning over large structured knowledge bases.
 
 ---
 
 ## Key Features
 
-### Modular Architecture
-The project is structured into independent components:
+### Document Intelligence Pipeline
 
-- Document loader
-- Text chunking pipeline
-- Embedding generator
-- Vector database manager
-- Retrieval pipeline
-- LLM response generator
+The system processes complex policy documents and converts them into a searchable knowledge base.
 
-Each module is isolated inside the `src/` directory for **maintainability and scalability**.
+Features include:
+
+- automatic loading of multiple PDF documents  
+- structured metadata extraction (source, page number, category)  
+- document chunking optimized for semantic retrieval  
 
 ---
 
-### Persistent Vector Database
-The system stores embeddings in a **persistent ChromaDB vector database**.
+### Evidence Based Retrieval
 
-Benefits:
-- Faster retrieval
-- No recomputation of embeddings
-- Scalable storage of large document collections
+Each answer produced by the system includes references to the original source documents.
 
-The vector database lives inside the source architecture, making the project **self-contained and reproducible**.
+This ensures:
 
----
+- answer traceability  
+- improved trust in generated responses  
+- reduced hallucination risk  
 
-### Optimized Document Chunking
-Documents are split using **Recursive Character Text Splitting** to preserve semantic meaning.
+**Example output**
+Answer:
+Project Vaani focuses on building large-scale speech datasets for Indian languages.
 
-This prevents:
-- context fragmentation  
-- overly long chunks that degrade retrieval quality
+Sources:
+digital_india_policy.pdf (page 18)
+ai_strategy_report.pdf (page 12)
 
----
-
-### Embedding-Based Semantic Retrieval
-User queries are converted into embeddings and matched with document chunks using **cosine similarity search**.
-
-This allows the system to retrieve **semantically relevant information**, not just keyword matches.
 
 ---
 
-### Hallucination Prevention
-A major focus of the system is **reducing hallucinated answers**.
+### Similarity Score Filtering
 
-This is handled through multiple safeguards:
+Retrieval results are filtered using similarity thresholds to remove weakly related document chunks.
 
-- The LLM receives **only retrieved document context**
-- The prompt instructs the model to **answer strictly from the provided context**
-- If the information is missing, the model is guided to respond with **“I don't know” instead of generating false information**
-
-This ensures responses remain **grounded in real data**.
+This improves context quality and reduces irrelevant information entering the LLM prompt.
 
 ---
 
-### Metadata Tracking
-Each document chunk stores metadata such as:
+### Metadata Enriched Documents
 
-- source file
-- chunk id
+Every document chunk stores structured metadata including:
 
-This allows tracing answers back to the **original document source**, which is important for real-world systems.
+- source document name  
+- page number  
+- document category  
+- document path  
 
----
+This enables:
 
-### Edge Case Handling
-The pipeline includes defensive checks such as:
-
-- validating chunk and embedding length consistency
-- safe document loading
-- structured data handling before vector storage
-
-These checks make the system **more reliable for production workflows**.
+- accurate citation of sources  
+- debugging retrieval results  
+- document level filtering in future extensions  
 
 ---
 
-### Experimentation Notebook
-The project includes a notebook for testing:
+### Modular Pipeline Architecture
 
-- different chunk sizes
-- retrieval quality
-- embedding behavior
+The system is designed with modular components that separate responsibilities across the pipeline.
 
-This allows experimentation without modifying the main pipeline.
+Core modules include:
+
+- document loader  
+- text splitter  
+- embedding generator  
+- vector database manager  
+- LLM service layer  
+- RAG pipeline orchestrator  
+
+This design allows easy extension for:
+
+- new models  
+- different datasets  
+- alternate retrieval strategies  
 
 ---
+
+### Vector Database Persistence
+
+The system avoids recomputing embeddings by persisting the vector database locally.
+
+This ensures:
+
+- faster startup times  
+- reduced compute cost  
+- scalable document indexing  
+
+---
+
+### Experimental Research Notebook
+
+An experimentation notebook is included to explore:
+
+- chunking strategies  
+- embedding generation  
+- similarity score behavior  
+- retrieval quality  
+
+This demonstrates the engineering process used to design the final pipeline.
+
 
 ## Project Structure
+The system follows an industry-style modular structure.
 
+rag_project
+│
+├── dataset
+│   ├── ai_policies
+│   ├── digital_india_policies
+│   ├── msme_policies
+│   ├── niti_ayog_policies
+│   └── startup_policies
+│
+├── notebooks
+│   └── experimentation.ipynb
+│
+├── src
+│   ├── embeddings.py
+│   ├── llm_service.py
+│   ├── loader.py
+│   ├── rag_pipeline.py
+│   ├── splitter.py
+│   ├── vectorstore.py
+│   └── vectorDB
+│
+├── main.py
+├── requirements.txt
+├── .env.example
+└── README.md
 
+The src directory contains all core logic of the RAG system.
 
+The vectorDB directory stores the persistent vector database used for semantic retrieval.
+
+## Tech Stack
+
+**Language**
+
+Python
+
+**LLM**
+
+GROQ API 
+
+model = **"llama-3.3-70b-versatile" **
+
+**Frameworks / Libraries**
+
+- LangChain
+- ChromaDB
+
+**Embedding Model**
+
+HuggingFace Embeddings : **"sentence_transformers/all-MiniLM-L6-v2"**
+
+**Vector Search**
+
+Cosine Similarity using HNSW indexing
+
+---
+
+## Challenges Faced
+
+### Choosing the Right Chunk Size
+Large chunks reduce retrieval accuracy, while very small chunks break context.
+
+**Solution**
+
+Used **RecursiveCharacterTextSplitter** and experimented with chunk sizes inside the notebook to balance context and retrieval precision.
+
+---
+
+### Managing Embedding Storage
+Recomputing embeddings on every run would make the pipeline inefficient.
+
+**Solution**
+
+Implemented **persistent vector storage with ChromaDB**, allowing embeddings to be stored once and reused.
+
+---
+
+### Preventing Hallucinated Responses
+LLMs may generate confident but incorrect answers when context is missing.
+
+**Solution**
+
+Designed prompts that instruct the model to:
+
+- answer strictly from retrieved context
+- return **“I don't know” if the answer is not present**
+
+---
+
+### Maintaining Clean Architecture
+Many RAG tutorials mix logic inside notebooks or single scripts.
+
+**Solution**
+
+Built the system with **modular components and clear separation of responsibilities**, making the codebase easier to extend and maintain.
+
+---
+
+## Optimizations Implemented
+
+- Persistent vector database for faster retrieval
+- Cosine similarity search for accurate semantic matching
+- Chunking strategy that preserves semantic meaning
+- Metadata tracking for document traceability
+- Modular pipeline design for scalability
+
+These improvements move the system closer to **real-world AI application design**.
+
+---
+
+## Running the Project
+
+### Install dependencies
+
+pip install -r requirements.txt
+
+### Set environment variables
+
+GROQ_API_KEY=your_api_key
+HF_TOKEN=your_token
+
+### Run the pipeline
+
+python main.py
+
+## Future Improvements
+
+Possible extensions for this project include :
+- Hybrid search (keyword + vector search)
+- Streaming responses
+- Evaluation metrics for retrieval quality
+- Web interface for user interaction
+- Support for multiple embedding models
+
+## Conclusion
+
+This project demonstrates how to build a **structured, modular and reliable Retrieval Augmented Generation system.**
+
+The focus is not only on making RAG work, but on designing it in a way that reflects production-ready AI engineering practices, including modular architecture, persistent storage and safeguards against hallucinations.
