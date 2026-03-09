@@ -164,23 +164,15 @@ The src directory contains all core logic of the RAG system.
 The vectorDB directory stores the persistent vector database used for semantic retrieval.
 
 ## Tech Stack
-
-**LLM Model:**
-
-GROQ API 
-
-model = **"llama-3.3-70b-versatile"**
+LLM Model : **"llama-3.3-70b-versatile"** (GROQ)
 
 **Frameworks / Libraries**
 - LangChain
 - ChromaDB
 
-**Embedding Model**
-
-HuggingFace Embeddings : **"sentence_transformers/all-MiniLM-L6-v2"**
+Embedding Model : **"sentence_transformers/all-MiniLM-L6-v2"** (HuggingFace Embeddings)
 
 **Vector Search**
-
 Cosine Similarity using HNSW indexing
 
 ---
@@ -267,6 +259,7 @@ Possible extensions for this project include :
 This project demonstrates how to build a **structured, modular and reliable Retrieval Augmented Generation system.**
 
 The focus is not only on making RAG work, but on designing it in a way that reflects production-ready AI engineering practices, including modular architecture, persistent storage and safeguards against hallucinations.
+
 
 
 
