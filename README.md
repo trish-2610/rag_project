@@ -2,9 +2,11 @@
 
 A production-oriented **Retrieval Augmented Generation (RAG)** system with a FastAPI backend, designed to answer questions from large policy documents such as Digital India policies, NITI Aayog reports, MSME policies and startup policy frameworks.
 
-![UI screenshot 1](ui/screenshot1.png)
+Below is a preview of the web interface:<br>
 
-![UI screenshot 2](ui/screenshot2.png)
+![UI screenshot 1](ui/assets/screenshot1.png)
+
+![UI screenshot 2](ui/assets/screenshot2.png)
 
 Unlike traditional RAG demos that simply embed documents and retrieve chunks, this system implements several improvements focused on **retrieval quality, traceability and reliability**.
 
