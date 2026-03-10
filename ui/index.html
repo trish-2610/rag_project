@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi-Document Policy Analyzer</title>
+    <!-- google font & style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/ui/style.css">
+
+</head>
+<body>
+    <header>
+        <h1 class="title">Multi-Document Policy Analyzer</h1>
+        <p class="subtitle">AI‑powered insights on Indian government policies</p>
+        <!-- decorative stickers -->
+        <div class="sticker" id="sticker1"><img src="/ui/assets/document.svg" alt="document"></div>
+        <div class="sticker" id="sticker2"><img src="/ui/assets/folder.svg" alt="folder"></div>
+        <div class="sticker" id="sticker3"><img src="/ui/assets/seal.svg" alt="seal"></div>
+        <div class="sticker" id="sticker4"><img src="/ui/assets/document.svg" alt="document"></div>
+        <div class="sticker" id="sticker5"><img src="/ui/assets/folder.svg" alt="folder"></div>
+    </header>
+
+    <main>
+        <section class="card" id="ask-section">
+            <div class="textarea-wrapper">
+                <textarea id="query" class="textarea" placeholder="Ask a question about AI policy, startup policy, MSME policy…"></textarea>
+                <button id="voice-btn" class="voice-btn" title="Start voice typing">🎤</button>
+            </div>
+            <button id="ask-btn" class="btn" onclick="askQuestion()">Ask Question</button>
+            <div class="suggestions">
+                <strong>Sample questions</strong>
+                <ul>
+                    <li>Provide an overview of the Digital India initiative.</li>
+                    <li>How does the Startup India policy support innovators?</li>
+                    <li>Explain the MSME policy provisions for digital transformation.</li>
+                </ul>
+            </div>
+            <div class="loader" id="loader" style="display:none;">
+                Generating answer...
+            </div>
+        </section>
+
+        <section class="card" id="answer-section" style="display:none;">
+            <h3>Answer</h3>
+            <div class="answer" id="answer"></div>
+            <div class="sources">
+                <h4>Sources</h4>
+                <ul id="sources"></ul>
+                <p class="source-note">The sources listed above are PDF documents. For complete details, see the dataset section in the repository.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <small>© 2026 Policy Intelligence. All rights reserved.</small>
+    </footer>
+
+    <script>
+        // voice typing using Web Speech API
+        let recognition;
+        if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRec();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                const text = event.results[0][0].transcript;
+                const queryEl = document.getElementById('query');
+                queryEl.value = queryEl.value + (queryEl.value ? ' ' : '') + text;
+            };
+            recognition.onerror = (e) => {
+                console.error('Speech recognition error', e);
+                stopVoice();
+            };
+        }
+
+        function startVoice() {
+            if (!recognition) return;
+            try {
+                recognition.start();
+                document.getElementById('voice-btn').classList.add('listening');
+            } catch(e) {
+                console.error(e);
+            }
+        }
+        function stopVoice() {
+            if (!recognition) return;
+            recognition.stop();
+            document.getElementById('voice-btn').classList.remove('listening');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const voiceBtn = document.getElementById('voice-btn');
+            voiceBtn.addEventListener('click', () => {
+                if (voiceBtn.classList.contains('listening')) {
+                    stopVoice();
+                } else {
+                    startVoice();
+                }
+            });
+        });
+
+        async function askQuestion(){
+            const query = document.getElementById("query").value;
+            if(query.trim() === ""){
+                alert("Please enter a question");
+                return;
+            }
+
+            document.getElementById("loader").style.display = "block";
+            document.getElementById("answer-section").style.display = "none";
+
+            const response = await fetch("http://127.0.0.1:8000/query", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query })
+            });
+
+            const data = await response.json();
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("answer-section").style.display = "block";
+            document.getElementById("answer").innerText = data.answer;
+
+            const sourcesList = document.getElementById("sources");
+            sourcesList.innerHTML = "";
+            data.sources.forEach(src => {
+                const li = document.createElement("li");
+                li.innerText = src;
+                sourcesList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
