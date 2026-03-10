@@ -1,4 +1,4 @@
-# Multi-Document Policy Analysis System
+# Multi-Document Policy Analyzer
 
 A production-oriented **Retrieval Augmented Generation (RAG)** system designed to answer questions from large policy documents such as Digital India policies, NITI Aayog reports, MSME policies and startup policy frameworks.
 

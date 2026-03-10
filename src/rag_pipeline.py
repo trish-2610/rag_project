@@ -7,12 +7,12 @@ from llm_service import generate_response , rewrite_query
 import os
 
 
-## set vectorDB path 
-VECTOR_DB_PATH = "vectorDB"
+## set vectorDB path (relative to workspace root)
+VECTOR_DB_PATH = "src/vectorDB"  # use same folder as main.py
 
 ## initialization 
 embedder = EmbeddingModel()
-vectorstore = VectorStore()
+vectorstore = VectorStore(persist_dir=VECTOR_DB_PATH)
 
 
 def ingest_documents():
