@@ -1,6 +1,6 @@
 # Multi-Document Policy Analyzer
 
-A production-oriented **Retrieval Augmented Generation (RAG)** system with a FastAPI backend, designed to answer questions from large policy documents such as Digital India policies, NITI Aayog reports, MSME policies and startup policy frameworks.
+A production-oriented **Retrieval Augmented Generation (RAG)** system with a **FastAPI backend** designed to answer questions from large policy documents such as Digital India policies, NITI Aayog reports, MSME policies and startup policy frameworks.
 
 Below is a preview of the web interface:<br>
 
@@ -273,6 +273,7 @@ Possible extensions for this project include :
 This project demonstrates how to build a **structured, modular and reliable Retrieval Augmented Generation system.**
 
 The focus is not only on making RAG work, but on designing it in a way that reflects production-ready AI engineering practices, including modular architecture, persistent storage and safeguards against hallucinations.
+
 
 
 
