@@ -1,6 +1,10 @@
 # Multi-Document Policy Analyzer
 
-A production-oriented **Retrieval Augmented Generation (RAG)** system designed to answer questions from large policy documents such as Digital India policies, NITI Aayog reports, MSME policies and startup policy frameworks.
+A production-oriented **Retrieval Augmented Generation (RAG)** system with a FastAPI backend, designed to answer questions from large policy documents such as Digital India policies, NITI Aayog reports, MSME policies and startup policy frameworks.
+
+![UI screenshot 1](ui/screenshot1.png)
+
+![UI screenshot 2](ui/screenshot2.png)
 
 Unlike traditional RAG demos that simply embed documents and retrieve chunks, this system implements several improvements focused on **retrieval quality, traceability and reliability**.
 
@@ -155,6 +159,11 @@ rag_project
 │   ├── vectorstore.py              ## Vector database management
 │   └── vectorDB/                   ## Persistent Chroma vector database
 │
+├── ui/                             ## Front-end static files
+│   ├── index.html                  ## Main interface
+│   ├── style.css                   ## Stylesheet
+│   └── assets/                     ## Decorative images & icons
+│
 ├── main.py                         
 ├── requirements.txt                ## Project dependencies
 └── README.md                       ## Project documentation
@@ -163,14 +172,20 @@ rag_project
 ## Tech Stack
 LLM Model : **"llama-3.3-70b-versatile"** (GROQ)
 
-**Frameworks / Libraries**
+**Backend / Frameworks / Libraries**
+- FastAPI (API server)
 - LangChain
-- ChromaDB
+- ChromaDB (with PersistentClient)
+- Uvicorn (ASGI server)
 
 Embedding Model : **"sentence_transformers/all-MiniLM-L6-v2"** (HuggingFace Embeddings)
 
 **Vector Search**
 Cosine Similarity using HNSW indexing
+
+**Other tools**
+- Pydantic for request/response schemas
+- Fetch API for UI communication
 
 ---
 
@@ -240,7 +255,7 @@ HF_TOKEN=your_token
 
 ### Run the pipeline
 
-python main.py
+uvicorn main:app --reload
 
 ## Future Improvements
 
